@@ -1,7 +1,13 @@
 #!/bin/bash
-cd "$(dirname "$0")"
-BUILD_DIR="code/tensornetwork/build"
+set -e  # exit if any command fails
+
+# move to repo root (directory where script is located)
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SRC_DIR="$SCRIPT_DIR/code/tensornetwork"
+BUILD_DIR="$SRC_DIR/build"
+
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
-cmake ..
-make
+
+cmake "$SRC_DIR"
+make -j$(nproc)
